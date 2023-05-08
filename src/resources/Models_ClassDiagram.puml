@@ -1,0 +1,68 @@
+@startuml
+
+class Patron {
+    -name: String
+    -age: int
+    -libraryCards: List<LibraryCard>
+}
+
+class Library {
+    -name: String
+    -libraryCards: List<LibraryCard>
+    -checkableAmounts: List<CheckableAmount>
+}
+
+abstract class Checkable {
+    -isbn: String
+    -title: String
+}
+
+class CheckableAmount {
+    -amount: int
+    -checkable: Checkable
+}
+
+class LibraryCard {
+    -patron: Patron
+    -library: Library
+    -checkouts: List<Checkouts>
+}
+
+class Checkout {
+    -checkable: Checkable
+    -dueDate: LocalDateTime
+}
+
+class Media {
+-mediaType: MediaType
+-author: String
+}
+
+enum MediaType {
+    BOOK
+    MUSIC
+    VIDEO
+}
+
+class ScienceKit {
+
+}
+
+class Ticket {
+}
+
+LibraryCard "0.." --o "1" Patron
+LibraryCard "0.." --o "1" Library
+LibraryCard "1" o-- "0.." Checkout
+
+Library "1" o-- "0.." CheckableAmount
+
+CheckableAmount *- Checkable
+Checkout *--- Checkable
+
+Checkable <|-- Media
+Checkable <|-- ScienceKit
+Checkable <|-- Ticket
+
+Media -- MediaType
+@enduml
