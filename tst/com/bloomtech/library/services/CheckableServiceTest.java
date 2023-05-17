@@ -69,11 +69,13 @@ public class CheckableServiceTest {
         Checkable checkable = checkableService.getByIsbn("3-0");
         assertEquals("3-0", checkable.getIsbn());
 
+        verify(checkableRepository).findByIsbn(checkable.getIsbn());
     }
 
     @Test
     void getByIsbn_CheckableDoesNotExist_throwsCheckableNotFoundException() {
         when(checkableRepository.findByIsbn(any(String.class))).thenThrow(CheckableNotFoundException.class);
+
         assertThrows(CheckableNotFoundException.class, () -> {
             checkableService.getByIsbn("10-0");
         });
@@ -125,6 +127,5 @@ public class CheckableServiceTest {
         assertThrows(ResourceExistsException.class, () -> {
             checkableService.save(new Media("1-1", "The Sorcerer's Quest", "Ana T", MediaType.BOOK));
         });
-
     }
 }

@@ -2,7 +2,6 @@ package com.bloomtech.library.services;
 
 import com.bloomtech.library.exceptions.CheckableNotFoundException;
 import com.bloomtech.library.exceptions.ResourceExistsException;
-import com.bloomtech.library.models.Library;
 import com.bloomtech.library.models.checkableTypes.Checkable;
 import com.bloomtech.library.repositories.CheckableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
