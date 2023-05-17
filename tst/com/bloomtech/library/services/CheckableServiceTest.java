@@ -7,6 +7,8 @@ import com.bloomtech.library.models.Library;
 import com.bloomtech.library.models.checkableTypes.*;
 import com.bloomtech.library.repositories.CheckableRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -77,11 +79,27 @@ public class CheckableServiceTest {
         });
     }
 
-    @Test
-    void getByType_findExistingCheckable() {
-        when(checkableRepository.findByType(Ticket.class)).thenReturn(Optional.of(checkables.get(7)));
-        Checkable checkable = checkableService.getByType(Ticket.class);
-        assertEquals("3-1", checkable.getIsbn());
+    @Nested
+    @DisplayName("Different types")
+    class getByType {
+        @Test
+        void getByTypeTicket_findExistingCheckable() {
+            when(checkableRepository.findByType(Ticket.class)).thenReturn(Optional.of(checkables.get(7)));
+            Checkable checkable = checkableService.getByType(Ticket.class);
+            assertEquals("3-1", checkable.getIsbn());
+        }
+        @Test
+        void getByTypeScienceKit_findExistingCheckable() {
+            when(checkableRepository.findByType(ScienceKit.class)).thenReturn(Optional.of(checkables.get(5)));
+            Checkable checkable = checkableService.getByType(ScienceKit.class);
+            assertEquals("2-1", checkable.getIsbn());
+        }
+        @Test
+        void getByTypeMedia_findExistingCheckable() {
+            when(checkableRepository.findByType(Media.class)).thenReturn(Optional.of(checkables.get(0)));
+            Checkable checkable = checkableService.getByType(Media.class);
+            assertEquals("1-0", checkable.getIsbn());
+        }
     }
 
     @Test
