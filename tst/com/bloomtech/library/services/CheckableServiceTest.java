@@ -53,7 +53,7 @@ public class CheckableServiceTest {
         );
     }
 
-    //TODONE: Write Unit Tests for all CheckableService methods and possible Exceptions
+    //TODO: Write Unit Tests for all CheckableService methods and possible Exceptions
     @Test
     void getAll() {
         when(checkableRepository.findAll()).thenReturn(checkables);
@@ -104,5 +104,6 @@ public class CheckableServiceTest {
         assertThrows(ResourceExistsException.class, () -> {
             checkableService.save(new Media("1-1", "The Sorcerer's Quest", "Ana T", MediaType.BOOK));
         });
+        verify(checkableRepository, never()).save(any(Checkable.class));
     }
 }
