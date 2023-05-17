@@ -96,6 +96,8 @@ public class CheckableServiceTest {
     void save() {
         when(checkableRepository.findAll()).thenReturn(checkables);
         checkableService.save(new Media("8-4", "More on Coding", "Dominick Barnes", MediaType.BOOK));
+        checkableService.save(new Media("8-2","Jacoco test report", "Kevin Monitor", MediaType.MUSIC));
+        checkableService.save(new Media("8-3", "Back to the... wait", "Thom the bomb", MediaType.VIDEO));
         Mockito.verify(checkableRepository, atLeast(1)).save(any(Media.class));
     }
 
