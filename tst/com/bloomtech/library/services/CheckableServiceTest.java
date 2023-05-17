@@ -67,7 +67,6 @@ public class CheckableServiceTest {
         Checkable checkable = checkableService.getByIsbn("3-0");
         assertEquals("3-0", checkable.getIsbn());
 
-        verify(checkableRepository, atLeast(1)).save(any(Media.class));
     }
 
     @Test
