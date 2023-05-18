@@ -64,20 +64,19 @@ public class CheckableServiceTest {
     }
 
     @Test
-    void getByIsbn_findCheckablesThatExist() {
-        when(checkableRepository.findByIsbn(any(String.class))).thenReturn(Optional.of(checkables.get(6)));
-        Checkable checkable = checkableService.getByIsbn("3-0");
-        assertEquals("3-0", checkable.getIsbn());
-
-        verify(checkableRepository).findByIsbn(checkable.getIsbn());
+    void getByIsbn_validIsbn() {
+        Checkable expected = checkables.get(4);
+        Mockito.when(checkableRepository.findByIsbn(expected.getIsbn())).thenReturn(Optional.of(expected));
+        Checkable result = checkableService.getByIsbn(expected.getIsbn());
+        assertEquals(expected, result);
+        Mockito.verify(checkableRepository).findByIsbn(expected.getIsbn());
     }
 
     @Test
-    void getByIsbn_CheckableDoesNotExist_throwsCheckableNotFoundException() {
-        when(checkableRepository.findByIsbn(any(String.class))).thenThrow(CheckableNotFoundException.class);
-
+    void getByIsbn_IsbnNotFound_ExceptionThrown() {
+        when(checkableRepository.findByIsbn(any(String.class))).thenReturn(Optional.empty());
         assertThrows(CheckableNotFoundException.class, () -> {
-            checkableService.getByIsbn("10-0");
+            checkableService.getByIsbn("Non-Existent Checkable");
         });
     }
 
