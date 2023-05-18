@@ -90,16 +90,21 @@ public class CheckableServiceTest {
             assertEquals("3-1", checkable.getIsbn());
         }
         @Test
-        void getByTypeScienceKit_findExistingCheckable() {
-            when(checkableRepository.findByType(ScienceKit.class)).thenReturn(Optional.of(checkables.get(5)));
-            Checkable checkable = checkableService.getByType(ScienceKit.class);
-            assertEquals("2-1", checkable.getIsbn());
+        void getByType_checkable_valid() {
+            Checkable expected = checkables.get(4);
+            when(checkableRepository.findByType(any(Class.class))).thenReturn(Optional.of(expected));
+            Checkable result = checkableService.getByType(expected.getClass());
+            assertEquals(expected, result);
+            Mockito.verify(checkableRepository).findByType(expected.getClass());
+
         }
         @Test
-        void getByTypeMedia_findExistingCheckable() {
-            when(checkableRepository.findByType(Media.class)).thenReturn(Optional.of(checkables.get(0)));
-            Checkable checkable = checkableService.getByType(Media.class);
-            assertEquals("1-0", checkable.getIsbn());
+        void getByType_checkableInvalid_ReturnException() {
+            when(checkableRepository.findByType(any(Class.class))).thenReturn(Optional.empty());
+            assertThrows(CheckableNotFoundException.class, () -> {
+                checkableService.getByType(checkables.getClass());
+            });
+
         }
     }
 
